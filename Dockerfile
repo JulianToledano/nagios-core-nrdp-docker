@@ -2,6 +2,7 @@ FROM centos:6
 
 ENV NAGIOSADMIN_USER       nagiosadmin
 ENV NAGIOSADMIN_PASS       nagios
+ENV NRDP_TOKEN             testtoken
 
 # Install nagios and nagios plugins dependencies
 RUN yum install -y gcc glibc glibc-common wget unzip httpd php gd gd-devel perl postfix gettext make automake autoconf openssl-devel net-snmp net-snmp-utils epel-release
