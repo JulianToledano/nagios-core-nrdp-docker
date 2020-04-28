@@ -18,8 +18,9 @@ This is a simple image with nagios core, its plugins and nrdp package.
 # User, passwords & tokens
 
 |  user | password  |
-|---|---|---|---|---|
+|---|---|
 |nagiosadmin   |nagios   |
+
 
 
 
