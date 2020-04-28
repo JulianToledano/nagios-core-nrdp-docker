@@ -1,5 +1,8 @@
 FROM centos:6
 
+ENV NAGIOS_VERSION         4.4.5
+ENV PLUGINS_VERSION        2.3.3
+ENV NRDP_VERSION           2.0.3
 ENV NAGIOSADMIN_USER       nagiosadmin
 ENV NAGIOSADMIN_PASS       nagios
 ENV NRDP_TOKEN             testtoken
@@ -11,10 +14,10 @@ RUN yum install -y perl-Net-SNMP
 WORKDIR /tmp
 
 # Download nagios source
-RUN wget -O nagioscore.tar.gz https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz && \
+RUN wget -O nagioscore.tar.gz https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${NAGIOS_VERSION}.tar.gz && \
 tar xzf nagioscore.tar.gz
 
-WORKDIR /tmp/nagioscore-nagios-4.4.5/
+WORKDIR /tmp/nagioscore-nagios-${NAGIOS_VERSION}/
 
 # compile
 RUN ./configure && \
@@ -45,10 +48,10 @@ RUN htpasswd -b -c /usr/local/nagios/etc/htpasswd.users ${NAGIOSADMIN_USER} ${NA
 WORKDIR /tmp
 
 # Download nagios pluguin source
-RUN wget --no-check-certificate -O nagios-plugins.tar.gz https://github.com/nagios-plugins/nagios-plugins/archive/release-2.2.1.tar.gz && \
+RUN wget --no-check-certificate -O nagios-plugins.tar.gz https://github.com/nagios-plugins/nagios-plugins/archive/release-${PLUGINS_VERSION}.tar.gz && \
 tar zxf nagios-plugins.tar.gz
 
-WORKDIR /tmp/nagios-plugins-release-2.2.1/
+WORKDIR /tmp/nagios-plugins-release-${PLUGINS_VERSION}/
 
 # Compile and install
 RUN ./tools/setup && \
@@ -59,10 +62,10 @@ make install
 # Install nrdp
 
 WORKDIR /tmp
-RUN wget -O nrdp.tar.gz https://github.com/NagiosEnterprises/nrdp/archive/1.5.1.tar.gz && \
+RUN wget -O nrdp.tar.gz https://github.com/NagiosEnterprises/nrdp/archive/${NRDP_VERSION}.tar.gz && \
 tar xzf nrdp.tar.gz
 
-WORKDIR /tmp/nrdp-1.5.1/
+WORKDIR /tmp/nrdp-${NRDP_VERSION}/
 # Copy files
 RUN mkdir -p /usr/local/nrdp && \
 cp -r clients server LICENSE* CHANGES* /usr/local/nrdp && \
